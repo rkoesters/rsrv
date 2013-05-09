@@ -22,14 +22,13 @@ func parseConfig(ch chan map[string]string) {
 	var m map[string]string
 	for {
 		line, err := conf.ReadString('\n')
-		if err != nil && err != io.EOF {
-			log.Fatal(err)
-		}
-		if err != nil && err == io.EOF {
+		if err == io.EOF {
 			if m != nil {
 				ch <- m
 			}
-			break
+			return
+		} else if err != nil {
+			log.Fatal(err)
 		}
 
 		line = strings.TrimSpace(line)
