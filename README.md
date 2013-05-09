@@ -1,6 +1,6 @@
 rsrv is a simple web server written in [Go](http://golang.org/).
 
-# Description
+## Description
 
 rsrv uses a configuration file named `rsrv.conf` to mount different handlers
 to the directory tree (see `example.config` for an example
@@ -9,7 +9,7 @@ using Go's goroutines and channels. The type of each mount point defines
 how that mount point will behave (e.g. `dir` will serve files from a
 directory and `file` will just serve a certain file).
 
-# Objectives
+## Objectives
 
 - Parse configuration file concurrently.
 - Serve files over http.
