@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	addr = flag.String("addr", ":5000", "Address to server from")
+	addr   = flag.String("addr", ":5000", "Address to server from")
 	config = flag.String("f", "rsrv.conf", "Configuration file to read from")
 )
 

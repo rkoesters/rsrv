@@ -9,7 +9,7 @@ import (
 )
 
 func parseConfig(ch chan map[string]string) {
-	var m map[string]string
+	defer close(ch)
 
 	f, err := os.Open(*config)
 	if err != nil {
@@ -19,24 +19,45 @@ func parseConfig(ch chan map[string]string) {
 
 	conf := bufio.NewReader(f)
 
+	var m map[string]string
 	for {
 		line, err := conf.ReadString('\n')
 		if err != nil && err != io.EOF {
 			log.Fatal(err)
 		}
 		if err != nil && err == io.EOF {
-			break;
+			if m != nil {
+				ch <- m
+			}
+			break
 		}
 
 		line = strings.TrimSpace(line)
-		switch line[0] {
-		case "#":
-			// This line is a comment, lets skip it.
-		case "[":
-			// We reached a new header, so lets create a new map.
+		switch {
+		case len(line) == 0:
+			// Empty line, skip it.
+
+		case strings.HasPrefix(line, "#"):
+			// Comment, skip it.
+
+		case strings.HasPrefix(line, "[") && strings.HasSuffix(line, "]"):
+			// New header, send the current map and create a new one.
+			if m != nil {
+				ch <- m
+			}
+
 			m = make(map[string]string)
-			m["mount"] = line[1:len(line)-1]
+			m["mount"] = strings.Trim(line, "[]")
+
+		case strings.Contains(line, "="):
+			// Line is a key=value pair.
+			pair := strings.SplitN(line, "=", 2)
+			pair[0] = strings.TrimSpace(pair[0])
+			pair[1] = strings.TrimSpace(pair[1])
+			m[pair[0]] = os.ExpandEnv(pair[1])
+
 		default:
-			
+			log.Fatalf("Error reading config: %v", line)
+		}
 	}
 }
