@@ -16,6 +16,7 @@ func File(config map[string]string) http.Handler {
 func (fname file) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	f, err := os.Open(string(fname))
 	if err != nil {
+		log.Print(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
