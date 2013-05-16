@@ -15,13 +15,13 @@ var newHandler = map[string]func(map[string]string) http.Handler{
 func getHandler(config map[string]string) http.Handler {
 	t, ok := config["type"]
 	if !ok {
-		log.Fatalf("okor: missing type: %v", config)
+		log.Fatalf("error: missing type: %v", config)
 	}
 
 	// Get the function that creates our handler.
 	f, ok := newHandler[t]
 	if !ok {
-		log.Fatalf("okor: unknown type: %v", t)
+		log.Fatalf("error: unknown type: %v", t)
 	}
 
 	return f(config)
