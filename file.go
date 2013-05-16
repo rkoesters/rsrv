@@ -9,7 +9,7 @@ import (
 
 type file string
 
-func newFileHandler(config map[string]string) http.Handler {
+func File(config map[string]string) http.Handler {
 	return file(mustGet(config, "path"))
 }
 
