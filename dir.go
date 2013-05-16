@@ -5,7 +5,5 @@ import (
 )
 
 func newDirHandler(config map[string]string) http.Handler {
-	p := mustGet(config, "path")
-
-	return http.FileServer(http.Dir(p))
+	return http.FileServer(http.Dir(mustGet(config, "path")))
 }
