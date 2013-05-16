@@ -9,14 +9,11 @@ import (
 // to create handlers.
 var newHandler = map[string]func(map[string]string) http.Handler{
 	"dir":  newDirHandler,
-//	"file": newFileHandler,
+	"file": newFileHandler,
 }
 
 func getHandler(config map[string]string) http.Handler {
-	t, ok := config["type"]
-	if !ok {
-		log.Fatalf("error: missing type: %v", config)
-	}
+	t := mustGet(config, "type")
 
 	// Get the function that creates our handler.
 	f, ok := newHandler[t]
@@ -25,4 +22,12 @@ func getHandler(config map[string]string) http.Handler {
 	}
 
 	return f(config)
+}
+
+func mustGet(m map[string]string, k string) string {
+	v, ok := m[k]
+	if !ok {
+		log.Fatalf("error: missing key: '%v' in %v", k, m)
+	}
+	return v
 }
