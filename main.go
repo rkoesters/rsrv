@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"net/http"
 )
 
 var (
@@ -20,6 +21,15 @@ func main() {
 	go parseConfig(ch)
 
 	for i := range ch {
-		log.Print(i)
+		mount, ok := i["mount"]
+		if !ok {
+			log.Fatalf("error: bad mount point: %v", i)
+		}
+
+		h := http.StripPrefix(mount, getHandler(i))
+		http.Handle(mount, h)
 	}
+
+	log.Printf("Serving from: %v", *addr)
+	log.Fatal(http.ListenAndServe(*addr, nil))
 }
