@@ -24,6 +24,9 @@ func getHandler(config map[string]string) http.Handler {
 	return f(config)
 }
 
+// mustGet returns the value from the given map that goes with
+// the given key and logs a fatal error if the key doesn't exist in
+// the map.
 func mustGet(m map[string]string, k string) string {
 	v, ok := m[k]
 	if !ok {
