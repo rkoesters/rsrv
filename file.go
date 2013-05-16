@@ -13,8 +13,8 @@ func File(config map[string]string) http.Handler {
 	return file(mustGet(config, "path"))
 }
 
-func (fname file) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	f, err := os.Open(string(fname))
+func (path file) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	f, err := os.Open(string(path))
 	if err != nil {
 		log.Print(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
