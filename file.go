@@ -4,12 +4,12 @@ import (
 	"net/http"
 )
 
-type file string
+type fileHandler string
 
 func File(config map[string]string) http.Handler {
-	return file(mustGet(config, "path"))
+	return fileHandler(mustGet(config, "path"))
 }
 
-func (path file) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, string(path))
+func (f fileHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, string(f))
 }
