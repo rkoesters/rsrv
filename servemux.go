@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"path"
 )
 
 // ServeMux is a wrapper around http.ServeMux in order to work well
@@ -21,7 +22,7 @@ func NewServeMux(prefix string) *ServeMux {
 }
 
 func (m *ServeMux) Prefix(s string) string {
-	return m.prefix + s
+	return path.Clean(m.prefix + s)
 }
 
 func (m *ServeMux) Handle(pattern string, handler http.Handler) {
