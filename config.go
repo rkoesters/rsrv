@@ -11,7 +11,7 @@ import (
 func parseConfig(ch chan map[string]string) {
 	defer close(ch)
 
-	f, err := os.Open(*config)
+	f, err := os.Open(*configFile)
 	if err != nil {
 		log.Fatalf("Error opening config file: %v", err)
 	}
