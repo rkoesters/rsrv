@@ -8,9 +8,10 @@ import (
 // This map contains all of the functions that we can use
 // to create handlers.
 var handlers = map[string]func(map[string]string) http.Handler{
-	"dir":   Dir,
-	"file":  File,
-	"debug": Debug,
+	"dir":      Dir,
+	"file":     File,
+	"debug":    Debug,
+	"redirect": Redirect,
 }
 
 func getHandler(config map[string]string) http.Handler {

@@ -1,0 +1,19 @@
+package main
+
+import (
+	"log"
+	"net/http"
+	"strconv"
+)
+
+func Redirect(config map[string]string) http.Handler {
+	url := mustGet(config, "url")
+	status := tryGet(config, "status", "302")
+
+	code, err := strconv.Atoi(status)
+	if err != nil {
+		log.Fatalf("Redirect: error: parsing status %v: %v", status, err)
+	}
+
+	return http.RedirectHandler(url, code)
+}
