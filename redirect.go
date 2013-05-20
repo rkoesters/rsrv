@@ -12,7 +12,7 @@ func Redirect(config map[string]string) http.Handler {
 
 	code, err := strconv.Atoi(status)
 	if err != nil {
-		log.Fatalf("Redirect: error: parsing status %v: %v", status, err)
+		log.Fatalf("Redirect: error: parsing status: %v", err)
 	}
 
 	return http.RedirectHandler(url, code)
