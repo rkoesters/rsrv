@@ -37,6 +37,8 @@ func mustGet(m map[string]string, k string) string {
 	return v
 }
 
+// tryGet works like mustGet, except it returns a string dflt instead
+// of logging a fatal error.
 func tryGet(m map[string]string, k string, dflt string) string {
 	v, ok := m[k]
 	if ok {
