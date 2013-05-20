@@ -35,3 +35,12 @@ func mustGet(m map[string]string, k string) string {
 	}
 	return v
 }
+
+func tryGet(m map[string]string, k string, dflt string) string {
+	v, ok := m[k]
+	if ok {
+		return v
+	} else {
+		return dflt
+	}
+}
