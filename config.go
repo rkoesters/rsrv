@@ -42,10 +42,7 @@ func parse(ch chan map[string]string, r io.Reader) {
 
 		case strings.HasPrefix(line, "[") && strings.HasSuffix(line, "]"):
 			// New header, send the current map and create a new one.
-			if m != nil {
-				ch <- m
-			}
-
+			send(ch, m)
 			m = make(map[string]string)
 			m["mount"] = line[1:len(line)-1]
 
@@ -60,7 +57,10 @@ func parse(ch chan map[string]string, r io.Reader) {
 			log.Fatalf("Error reading config: %v", line)
 		}
 	}
+	send(ch, m)
+}
 
+func send(ch chan map[string]string, m map[string]string) {
 	if m != nil {
 		ch <- m
 	}
