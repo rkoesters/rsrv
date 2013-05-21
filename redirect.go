@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func Redirect(config map[string]string) http.Handler {
+func RedirectHandler(config map[string]string) http.Handler {
 	url := mustGet(config, "url")
 	status := tryGet(config, "status", "302")
 

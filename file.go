@@ -6,7 +6,7 @@ import (
 
 type fileHandler string
 
-func File(config map[string]string) http.Handler {
+func FileHandler(config map[string]string) http.Handler {
 	return fileHandler(mustGet(config, "path"))
 }
 

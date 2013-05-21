@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func Debug(config map[string]string) http.Handler {
+func DebugHandler(config map[string]string) http.Handler {
 	mount := mustGet(config, "mount")
 
 	mux := NewServeMux(mount)
