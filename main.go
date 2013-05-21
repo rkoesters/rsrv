@@ -26,6 +26,8 @@ func main() {
 			log.Fatalf("error: bad mount point: %v", i)
 		}
 
+		log.Printf("mounting: %v", i)
+
 		h := http.StripPrefix(mount, getHandler(i))
 		http.Handle(mount, h)
 	}
