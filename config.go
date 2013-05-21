@@ -8,36 +8,38 @@ import (
 	"strings"
 )
 
-func parseConfig(ch chan map[string]string) {
+func ParseConfig(ch chan map[string]string) {
 	defer close(ch)
 
-	f, err := os.Open(*configFile)
+	parseFile(ch, *configFile)
+}
+
+func parseFile(ch chan map[string]string, fname string) {
+	f, err := os.Open(fname)
 	if err != nil {
 		log.Fatalf("Error opening config file: %v", err)
 	}
 	defer f.Close()
 
-	conf := bufio.NewReader(f)
+	parse(ch, f)
+}
+
+func parse(ch chan map[string]string, r io.Reader) {
+	rChan := ReadChan(r)
 
 	var m map[string]string
-	for {
-		line, err := conf.ReadString('\n')
-		if err == io.EOF {
-			if m != nil {
-				ch <- m
-			}
-			return
-		} else if err != nil {
-			log.Fatal(err)
-		}
-
-		line = strings.TrimSpace(line)
+	for line := range rChan {
 		switch {
 		case len(line) == 0:
 			// Empty line, skip it.
 
 		case strings.HasPrefix(line, "#"):
 			// Comment, skip it.
+
+		case strings.HasPrefix(line, "<"):
+			// Include another file.
+			fname := strings.TrimLeft(line, "<")
+			parseFile(ch, fname)
 
 		case strings.HasPrefix(line, "[") && strings.HasSuffix(line, "]"):
 			// New header, send the current map and create a new one.
@@ -58,5 +60,30 @@ func parseConfig(ch chan map[string]string) {
 		default:
 			log.Fatalf("Error reading config: %v", line)
 		}
+	}
+}
+
+func ReadChan(r io.Reader) chan string {
+	ch := make(chan string)
+
+	go readChan(r, ch)
+
+	return ch
+}
+
+func readChan(r io.Reader, ch chan string) {
+	defer close(ch)
+
+	rd := bufio.NewReader(r)
+
+	for {
+		line, err := rd.ReadString('\n')
+		if err == io.EOF {
+			return
+		} else if err != nil {
+			log.Fatal(err)
+		}
+
+		ch <- strings.TrimSpace(line)
 	}
 }

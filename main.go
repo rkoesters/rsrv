@@ -18,7 +18,7 @@ func main() {
 
 	ch := make(chan map[string]string)
 
-	go parseConfig(ch)
+	go ParseConfig(ch)
 
 	for i := range ch {
 		mount, ok := i["mount"]
