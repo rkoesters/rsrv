@@ -61,6 +61,10 @@ func parse(ch chan map[string]string, r io.Reader) {
 			log.Fatalf("Error reading config: %v", line)
 		}
 	}
+
+	if m != nil {
+		ch <- m
+	}
 }
 
 func ReadChan(r io.Reader) chan string {
