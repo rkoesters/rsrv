@@ -38,8 +38,7 @@ func parse(ch chan map[string]string, r io.Reader) {
 
 		case strings.HasPrefix(line, "<"):
 			// Include another file.
-			fname := strings.TrimLeft(line, "<")
-			parseFile(ch, fname)
+			parseFile(ch, line[1:])
 
 		case strings.HasPrefix(line, "[") && strings.HasSuffix(line, "]"):
 			// New header, send the current map and create a new one.
@@ -48,7 +47,7 @@ func parse(ch chan map[string]string, r io.Reader) {
 			}
 
 			m = make(map[string]string)
-			m["mount"] = strings.Trim(line, "[]")
+			m["mount"] = line[1:len(line)-1]
 
 		case strings.Contains(line, "="):
 			// Line is a key=value pair.
