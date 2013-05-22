@@ -8,6 +8,9 @@ import (
 	"strings"
 )
 
+// configFiles is a slice of every config file read.
+var configFiles []string
+
 func ParseConfig(ch chan map[string]string) {
 	defer close(ch)
 
@@ -22,6 +25,7 @@ func parseFile(ch chan map[string]string, fname string) {
 	defer f.Close()
 
 	parse(ch, f)
+	configFiles = append(configFiles, fname)
 }
 
 func parse(ch chan map[string]string, r io.Reader) {
