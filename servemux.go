@@ -33,6 +33,11 @@ func (m *ServeMux) HandleFunc(pattern string, handler func(http.ResponseWriter, 
 	m.mux.HandleFunc(m.Prefix(pattern), handler)
 }
 
+func (m *ServeMux) Handler(r *http.Request) (http.Handler, string) {
+	r.URL.Path = m.Prefix(r.URL.Path)
+	return m.mux.Handler(r)
+}
+
 func (m *ServeMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	r.URL.Path = m.Prefix(r.URL.Path)
 	m.mux.ServeHTTP(w, r)
