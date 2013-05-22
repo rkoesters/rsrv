@@ -44,7 +44,7 @@ func parse(ch chan map[string]string, r io.Reader) {
 			// New header, send the current map and create a new one.
 			send(ch, m)
 			m = make(map[string]string)
-			m["mount"] = line[1:len(line)-1]
+			m["mount"] = line[1 : len(line)-1]
 
 		case strings.Contains(line, "="):
 			// Line is a key=value pair.
