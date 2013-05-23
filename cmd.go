@@ -69,6 +69,7 @@ func cmdExpand(s string, r *http.Request) string {
 // cmdSanitize cleans a string so that it can be safely included into
 // a shell command.
 func cmdSanitize(s string) string {
+	s = strings.Replace(s, `\`, `\\`, -1)
 	s = strings.Replace(s, `'`, `'\''`, -1)
 	return `'` + s + `'`
 }
