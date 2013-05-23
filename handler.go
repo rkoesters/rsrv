@@ -8,7 +8,7 @@ import (
 // This map contains all of the functions that we can use
 // to create handlers.
 var handlers = map[string]func(map[string]string) http.Handler{
-	"cmd": CmdHandler,
+	"cmd":      CmdHandler,
 	"dir":      DirHandler,
 	"file":     FileHandler,
 	"redirect": RedirectHandler,
