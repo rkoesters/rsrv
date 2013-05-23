@@ -56,6 +56,8 @@ func cmdExpand(s string, r *http.Request) string {
 		return "%"
 	case "p":
 		return cmdSanitize(r.URL.Path)
+	case "q":
+		return cmdSanitize(r.URL.RawQuery)
 	default:
 		return "%" + s
 	}
