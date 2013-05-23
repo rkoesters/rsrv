@@ -7,16 +7,25 @@ import (
 	"strings"
 )
 
-type cmdHandler string
-
-func CmdHandler(config map[string]string) http.Handler {
-	return cmdHandler(mustGet(config, "cmd"))
+type cmdHandler struct {
+	cmd string
+	dir string
 }
 
-func (c cmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	s := cmdParse(string(c), r)
+func CmdHandler(config map[string]string) http.Handler {
+	c := new(cmdHandler)
+
+	c.cmd = mustGet(config, "cmd")
+	c.dir = tryGet(config, "dir", "")
+
+	return c
+}
+
+func (c *cmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	s := cmdParse(c.cmd, r)
 	cmd := exec.Command("sh", "-c", s)
 
+	cmd.Dir = c.dir
 	cmd.Stdin = nil
 	cmd.Stdout = w
 	cmd.Stderr = w
@@ -24,7 +33,7 @@ func (c cmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Running cmd: %v", s)
 	err := cmd.Run()
 	if err != nil {
-		log.Printf("error running: %v : %v", s, err)
+		log.Printf("error running: '%v' : %v", s, err)
 	}
 }
 
