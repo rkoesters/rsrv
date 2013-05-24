@@ -26,7 +26,7 @@ func (c *cmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	cmd := exec.Command("sh", "-c", s)
 
 	cmd.Dir = c.dir
-	cmd.Stdin = nil
+	cmd.Stdin = r.Body
 	cmd.Stdout = w
 	cmd.Stderr = w
 
