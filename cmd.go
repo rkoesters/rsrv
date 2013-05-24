@@ -57,10 +57,20 @@ func cmdExpand(s string, r *http.Request) string {
 	switch s {
 	case "%":
 		return "%"
+	case "f":
+		return cmdSanitize(r.URL.Fragment)
+	case "h":
+		return cmdSanitize(r.URL.Host)
+	case "o":
+		return cmdSanitize(r.URL.Opaque)
 	case "p":
 		return cmdSanitize(r.URL.Path)
 	case "q":
 		return cmdSanitize(r.URL.RawQuery)
+	case "s":
+		return cmdSanitize(r.URL.Scheme)
+	case "u":
+		return cmdSanitize(r.URL.String())
 	default:
 		return "%" + s
 	}
