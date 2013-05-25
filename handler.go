@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
+	"sort"
+	"strings"
 )
 
 // This map contains all of the functions that we can use
@@ -46,5 +48,31 @@ func tryGet(m map[string]string, k string, dflt string) string {
 		return v
 	} else {
 		return dflt
+	}
+}
+
+func getSlice(m map[string]string, k string) []string {
+	v, ok := m[k]
+	if ok {
+		return strings.Fields(v)
+	}
+
+	var keys []string
+	for key := range m {
+		if strings.HasPrefix(key, k+"[") && strings.HasSuffix(key, "]") {
+			keys = append(keys, key)
+		}
+	}
+	sort.Strings(keys)
+
+	var vals []string
+	for _, key := range keys {
+		vals = append(vals, m[key])
+	}
+
+	if len(vals) != 0 {
+		return vals
+	} else {
+		return nil
 	}
 }
