@@ -6,8 +6,8 @@ rsrv is a simple web server written in [Go](http://golang.org/).
 Description
 -----------
 
-rsrv uses a configuration file named `rsrv.conf` to mount different 
-handlers to the directory tree (see `example/rsrv.conf` for an example 
+rsrv uses a configuration file named `rsrv.ini` to mount different 
+handlers to the directory tree (see `example/rsrv.ini` for an example 
 configuration file). The config file is parsed in a concurrent manner 
 using Go's goroutines and channels. The type of each mount point 
 defines how that mount point will behave (e.g. `dir` will serve files 
