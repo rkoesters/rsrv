@@ -1,3 +1,2 @@
 - Update `README.md'.
 - Add pattern matching to redirect handler (like sed).
-- Improve comments in `example/*'.
