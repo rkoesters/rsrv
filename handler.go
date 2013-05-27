@@ -51,6 +51,11 @@ func tryGet(m map[string]string, k string, dflt string) string {
 	}
 }
 
+// getSlice parses a slice from the given map using the key `k'. First,
+// it checks if the map contains `k' verbatim, if it does, it
+// returns a slice of k's value split by whitespace. If the key doesn't
+// exist, it looks for keys in the form `k[*]' and creates a slice by
+// sorting the keys and putting the values into a slice.
 func getSlice(m map[string]string, k string) []string {
 	v, ok := m[k]
 	if ok {
