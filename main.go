@@ -8,7 +8,7 @@ import (
 
 var (
 	addr       = flag.String("addr", ":5000", "Address to server from")
-	configFile = flag.String("f", "rsrv.conf", "Configuration file to read from")
+	configFile = flag.String("f", "rsrv.ini", "Configuration file to read from")
 )
 
 func main() {
