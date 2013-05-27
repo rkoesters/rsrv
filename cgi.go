@@ -13,7 +13,7 @@ func CgiHandler(config map[string]string) http.Handler {
 	h.Dir = tryGet(config, "dir", "")
 	h.Args = getSlice(config, "args")
 	h.Env = getSlice(config, "env")
-	h.InheritEnv = getSlice(config, "inherit-env")
+	h.InheritEnv = getSlice(config, "inherit")
 
 	return h
 }
