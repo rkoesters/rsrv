@@ -8,12 +8,14 @@ import (
 	"strings"
 )
 
+// ParseConfig starts the process of reading the config file.
 func ParseConfig(ch chan map[string]string) {
 	defer close(ch)
 
 	parseFile(ch, *configFile)
 }
 
+// parseFile opens the given file and parses it.
 func parseFile(ch chan map[string]string, fname string) {
 	f, err := os.Open(fname)
 	if err != nil {
@@ -24,7 +26,10 @@ func parseFile(ch chan map[string]string, fname string) {
 	parse(ch, f)
 }
 
+// parse reads from the given io.Reader and creates config maps
+// that it sends on the channel `ch'.
 func parse(ch chan map[string]string, r io.Reader) {
+	// rChan allows us to use `range' to read the file line by line.
 	rChan := ReadChan(r)
 
 	var m map[string]string
@@ -60,12 +65,15 @@ func parse(ch chan map[string]string, r io.Reader) {
 	send(ch, m)
 }
 
+// send checks to see if the map is not nil before sending it.
 func send(ch chan map[string]string, m map[string]string) {
 	if m != nil {
 		ch <- m
 	}
 }
 
+// ReadChan is a little helper that allows reading a file line by
+// line using `for i := range ch'.
 func ReadChan(r io.Reader) chan string {
 	ch := make(chan string)
 

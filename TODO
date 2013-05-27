@@ -1,3 +1,2 @@
-- Add comments to `config.go'.
 - Update `README.md'.
 - Add pattern matching to redirect handler (like sed).
