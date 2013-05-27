@@ -26,7 +26,7 @@ Where to start
 
 If you want to read through or modify rsrv, here are some important files:
 
-- main.go: This is where the program starts.
-- config.go: This is where the configuration is parsed.
-- handler.go: This has `getHandler` and some helper functions that are
+- `main.go`:	This is where the program starts.
+- `config.go`:	This is where the configuration is parsed.
+- `handler.go`:	This has `getHandler` and some helper functions that are
   shared by the handlers.
