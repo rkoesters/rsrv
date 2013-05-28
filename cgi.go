@@ -15,5 +15,7 @@ func CgiHandler(config map[string]string) http.Handler {
 	h.Env = getSlice(config, "env")
 	h.InheritEnv = getSlice(config, "inherit")
 
+	h.PathLocationHandler = http.DefaultServeMux
+
 	return h
 }
