@@ -5,6 +5,5 @@ import os
 print("Content-Type: text/plain")
 print()
 
-print("QUERY_STRING: " + os.getenv("QUERY_STRING"))
-print("PATH_INFO: " + os.getenv("PATH_INFO"))
-
+for var in os.environ:
+	print(var + "=" + os.environ[var])
