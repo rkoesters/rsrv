@@ -46,9 +46,8 @@ func tryGet(m map[string]string, k string, dflt string) string {
 	v, ok := m[k]
 	if ok {
 		return v
-	} else {
-		return dflt
 	}
+	return dflt
 }
 
 // getSlice parses a slice from the given map using the key `k'. First,
@@ -77,7 +76,6 @@ func getSlice(m map[string]string, k string) []string {
 
 	if len(vals) != 0 {
 		return vals
-	} else {
-		return nil
 	}
+	return nil
 }

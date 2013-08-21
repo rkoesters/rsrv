@@ -74,6 +74,7 @@ func cmdExpand(s string, r *http.Request) string {
 	default:
 		return "%" + s
 	}
+	panic("cmdExpand")
 }
 
 // cmdSanitize cleans a string so that it can be safely included into
