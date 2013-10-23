@@ -8,11 +8,22 @@ import (
 	"strings"
 )
 
+// This is the string used as the config file for the '-d' option.
+const cwdConfig = `
+[/]
+type=dir
+path=.
+`
+
 // ParseConfig starts the process of reading the config file.
 func ParseConfig(ch chan map[string]string) {
 	defer close(ch)
 
-	parseFile(ch, *configFile)
+	if *serveCwd {
+		parseCwdConfig(ch)
+	} else {
+		parseFile(ch, *configFile)
+	}
 }
 
 // parseFile opens the given file and parses it.
@@ -24,6 +35,12 @@ func parseFile(ch chan map[string]string, fname string) {
 	defer f.Close()
 
 	parse(ch, f)
+}
+
+// parseCwdConfig parses the string cwdConfig as the config file.
+func parseCwdConfig(ch chan map[string]string) {
+	r := strings.NewReader(cwdConfig)
+	parse(ch, r)
 }
 
 // parse reads from the given io.Reader and creates config maps

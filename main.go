@@ -9,6 +9,7 @@ import (
 var (
 	addr       = flag.String("addr", ":5000", "Address to serve from")
 	configFile = flag.String("f", "rsrv.ini", "Configuration file to read from")
+	serveCwd   = flag.Bool("d", false, "Ignore '-f' and just serve the current directory.")
 )
 
 func main() {
